@@ -4,9 +4,17 @@ out vec4 FragColor;
 in vec3 ourColor;
 in vec2 TexCoord;
 
-// texture sampler
+// texture samplers
 uniform sampler2D texture1;
+uniform sampler2D texture2;
 
 void main() {
-	FragColor = texture(texture1, TexCoord);
+	// resulting texture color
+	//FragColor = texture(texture1, TexCoord);
+
+	// mix resulting texture color with vertex colors
+	//FragColor *= vec4(ourColor, 1.0);
+
+	// linearly interpolate between both textures (80% container, 20% awesomeface)
+	FragColor = mix(texture(texture1, TexCoord), texture(texture2, TexCoord), 0.2);
 }

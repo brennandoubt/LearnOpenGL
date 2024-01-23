@@ -90,21 +90,21 @@ int main() {
 
 
 	// 5. load and create a texture
-	unsigned int texture;
-	glGenTextures(1, &texture);
-	glBindTexture(GL_TEXTURE_2D, texture);
+	unsigned int texture1, texture2;
+	glGenTextures(1, &texture1);
+	glBindTexture(GL_TEXTURE_2D, texture1);
 	
 	// set texture wrapping parameters
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
 	// set texture filtering parameters
-	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR_MIPMAP_LINEAR);
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
 
 	// load image, create texture and generate mipmaps
 	int width, height, nrChannels;
-	std::string filename = "container.jpg";
-	unsigned char* data = stbi_load(filename.c_str(), &width, &height, &nrChannels, 0);
+	stbi_set_flip_vertically_on_load(true); // flip loaded textures on y-axis
+	unsigned char* data = stbi_load("container.jpg", &width, &height, &nrChannels, 0);
 	if (data) {
 		glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, width, height, 0, GL_RGB, GL_UNSIGNED_BYTE, data);
 		glGenerateMipmap(GL_TEXTURE_2D);
@@ -114,6 +114,30 @@ int main() {
 	}
 	stbi_image_free(data);
 
+	// texture 2
+	glGenTextures(1, &texture2);
+	glBindTexture(GL_TEXTURE_2D, texture2);
+
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+
+	data = stbi_load("awesomeface.png", &width, &height, &nrChannels, 0);
+	if (data) {
+		// note that awesomeface.png has transparency and thus an alpha channel, so tell OpenGL that the data type is of GL_RGBA
+		glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, width, height, 0, GL_RGBA, GL_UNSIGNED_BYTE, data);
+		glGenerateMipmap(GL_TEXTURE_2D);
+	}
+	else {
+		std::cout << "Failed to load texture" << std::endl;
+	}
+	stbi_image_free(data);
+
+	// tell OpenGL for each sampler to which texture unit/location it belongs to (only has to be done once)
+	ourShader.use();
+	glUniform1i(glGetUniformLocation(ourShader.ID, "texture1"), 0); // set it manually
+	ourShader.setInt("texture2", 1); // set it via shader class
 
 
 	// 6. render loop
@@ -125,8 +149,11 @@ int main() {
 		glClearColor(0.2f, 0.3f, 0.3f, 1.0f);
 		glClear(GL_COLOR_BUFFER_BIT);
 
-		// bind texture
-		glBindTexture(GL_TEXTURE_2D, texture);
+		// bind textures on corresponding texture units
+		glActiveTexture(GL_TEXTURE0);
+		glBindTexture(GL_TEXTURE_2D, texture1);
+		glActiveTexture(GL_TEXTURE1);
+		glBindTexture(GL_TEXTURE_2D, texture2);
 
 		// render container
 		ourShader.use();
