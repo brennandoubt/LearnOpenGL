@@ -137,6 +137,7 @@
     <ClCompile Include="Shader.cpp" />
     <ClCompile Include="stb_image_implementation.cpp" />
     <ClCompile Include="textureswindow.cpp" />
+    <ClCompile Include="transformationswindow.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Shader.h" />
@@ -147,6 +148,8 @@
     <None Include="shader.vs" />
     <None Include="texture.fs" />
     <None Include="texture.vs" />
+    <None Include="transformation.fs" />
+    <None Include="transformation.vs" />
   </ItemGroup>
   <ItemGroup>
     <Image Include="awesomeface.png" />

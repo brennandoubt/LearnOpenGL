@@ -30,6 +30,9 @@
     <ClCompile Include="textureswindow.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="transformationswindow.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Shader.h">
@@ -44,6 +47,8 @@
     <None Include="shader.fs" />
     <None Include="texture.vs" />
     <None Include="texture.fs" />
+    <None Include="transformation.vs" />
+    <None Include="transformation.fs" />
   </ItemGroup>
   <ItemGroup>
     <Image Include="container.jpg">
