@@ -33,12 +33,18 @@
     <ClCompile Include="transformationswindow.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="coordinate_systems_window.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Shader.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="stb_image.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="resource.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
@@ -49,6 +55,8 @@
     <None Include="texture.fs" />
     <None Include="transformation.vs" />
     <None Include="transformation.fs" />
+    <None Include="coordinate_system.vert" />
+    <None Include="coordinate_system.frag" />
   </ItemGroup>
   <ItemGroup>
     <Image Include="container.jpg">
